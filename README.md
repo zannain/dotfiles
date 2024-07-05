@@ -6,6 +6,8 @@ I'm using Stow to keep my dotfiles updated.
 brew install stow
 ```
 
+### Terminal Emulator: alacritty
+
 ### Terminal Shell: zsh
 
 Plugins
@@ -13,3 +15,8 @@ Plugins
 - catppuccin_mocha-zsh-syntax-highlighting.zsh
 - zsh-autosuggestions.zsh
 
+### Terminal Multiplexer: tmux
+
+### Shell Prompt: starship
+
+### Text Editor: nvim
