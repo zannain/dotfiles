@@ -1,25 +1,46 @@
 return {
-	"nvim-treesitter/nvim-treesitter-textobjects",
-	lazy = true,
-	config = function()
-		---@diagnostic disable-next-line: missing-fields
-		require("nvim-treesitter.configs").setup({
-			textobjects = {
+  {
+    "nvim-treesitter/nvim-treesitter-context",
+    opts = {},
+  },
+	{
+		"nvim-treesitter/nvim-treesitter",
+		build = ":TSUpdate",
+		event = { "BufReadPre", "BufNewFile" },
+		dependencies = { "nvim-treesitter/nvim-treesitter-textobjects" },
+		config = function()
+			require("nvim-treesitter.install").prefer_git = true
+			---@diagnostic disable-next-line: missing-fields
+			require("nvim-treesitter.configs").setup({
+				ensure_installed = {
+					"c",
+					"lua",
+					"vim",
+					"vimdoc",
+					"query",
+				},
+				auto_install = true,
+				highlight = { enable = true },
+				indent = { enable = true },
+				incremental_selection = {
+					enable = true,
+					keymaps = {
+						init_selection = "<C-space>", 
+						node_incremental = "<C-space>",
+						scope_incremental = false,
+						node_decremental = "<bs>",
+					},
+				},
+        textobjects = {
 				select = {
 					enable = true,
 					lookahead = true,
 					keymaps = {
-						["a="] = { query = "@assignment.outer", desc = "Select outer part of an assignment" },
-						["i="] = { query = "@assignment.inner", desc = "Select inner part of an assignment" },
-						["l="] = { query = "@assignment.lhs", desc = "Select left hand side of an assignment" },
-						["r="] = { query = "@assignment.rhs", desc = "Select right hand side of an assignment" },
-
 						["al"] = { query = "@loop.outer", desc = "Select outer part of a loop" },
 						["il"] = { query = "@loop.inner", desc = "Select inner part of a loop" },
 
 						["ai"] = { query = "@conditional.outer", desc = "Select outer part of a conditional" },
 						["ii"] = { query = "@conditional.inner", desc = "Select inner part of a conditional" },
-
 						["af"] = {
 							query = "@function.outer",
 							desc = "Select outer part of a method/function definition",
@@ -41,19 +62,23 @@ return {
 					set_jumps = true,
 					goto_next_start = {
 						["]f"] = "@function.outer",
-						["]]"] = "@class.outer",
+						["]c"] = "@class.outer",
+						["]a"] = "@parameter.inner"
 					},
 					goto_next_end = {
 						["]F"] = "@function.outer",
-						["]["] = "@class.outer",
+						["]C"] = "@class.outer",
+						["]A"] = "@parameter.inner"
 					},
 					goto_previous_start = {
 						["[f"] = "@function.outer",
-						["[["] = "@class.outer",
+						["[c"] = "@class.outer",
+						["[a"] = "@parameter.inner"
 					},
 					goto_previous_end = {
 						["[F"] = "@function.outer",
-						["[]"] = "@class.outer",
+						["[C"] = "@class.outer",
+						["[A"] = "@parameter.inner"
 					},
 				},
 				swap = {
@@ -66,6 +91,7 @@ return {
 					},
 				},
 			},
-		})
-	end,
+			})
+		end,
+	},
 }

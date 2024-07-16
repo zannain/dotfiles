@@ -15,7 +15,7 @@ return {
 			 is_always_hidden = function(name, _)
 				 return name == '.' or name == '..' or name == '.git'
 			 end
-		}
+      }
 		})
 
 		vim.keymap.set("n", "-", "<CMD>Oil<CR>", { desc = "Open parent directory" })

@@ -1,9 +1,22 @@
 return {
 	"stevearc/conform.nvim",
 	event = { "BufReadPre", "BufNewFile" },
+  cmd = { "ConformInfo" },
+    keys = {
+    {
+      -- Customize or remove this keymap to your liking
+      "<leader>f",
+      function()
+        require("conform").format({ async = true, lsp_format = "fallback" })
+      end,
+      mode = "",
+      desc = "Format buffer",
+    },
+  },
 	config = function()
 		local conform = require("conform")
 		conform.setup({
+      format_on_save = { timeout_ms = 500, lsp_format = "fallback" },
 			formatters_by_ft = {
 				lua = { "stylua" },
 				javascript = { { "prettierd", "prettier" } },
@@ -18,12 +31,5 @@ return {
 				python = { "isort", "black" },
 			},
 		})
-		vim.keymap.set({ "n", "v" }, "<leader>l", function()
-			conform.format({
-				lsp_fallback = true,
-				async = false,
-				timeout_ms = 500,
-			})
-		end, { desc = "Format file or range (in visual mode)" })
 	end,
 }
